@@ -1,0 +1,6 @@
+torch
+transformers==4.9.2
+datasets=1.10.0
+tensorboard==2.9.0
+sentencepiece==0.1.96
+tqdm==4.64.0
