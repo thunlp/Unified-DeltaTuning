@@ -115,7 +115,7 @@ python tune_hps_singletask_PET_mode_connectivity.py \
 done
 
 ```
-Most arguments are inherited from `transformers` and are easy to understand. We further explain some of the LM-BFF's arguments:
+Most arguments are inherited from `transformers` and are easy to understand. We further explain some arguments:
 
 * `tune_method`: There are 2 modes
   * `PET_mc`: Subspace Approximation.
