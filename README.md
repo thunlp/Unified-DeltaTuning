@@ -30,7 +30,7 @@ If you use the code, please cite the following paper:
 <center>
 <img src="figs/3stage.png" width="80%">
 </center>
-In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance. You can find more details in our [paper]().
+In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance.
 
 # Requirements
 
