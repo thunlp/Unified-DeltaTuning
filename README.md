@@ -41,7 +41,7 @@ pip install -r requirements.txt
 NOTE: Different versions of packages (like pytorch, transformers, etc.) may lead to different results from the paper. However, the trend should still hold no matter what versions of packages you use.
 
 # Data Preparation
-We pack the original 160 datasets here. Please download it and extract the files to ./data
+We pack the original 160 datasets here. Please download it from "[here](https://cloud.tsinghua.edu.cn/f/23dee716b51f45988c2f/?dl=1)" and extract the files to ./data
 
 # Experiments
 
