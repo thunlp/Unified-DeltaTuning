@@ -6,7 +6,6 @@ import numpy as np
 import random
 from modeling_t5_multiHyper_flatten_pet import T5PreTrainedModel, T5ForConditionalGeneration
 from transformers import T5Tokenizer
-tokenizer = T5Tokenizer.from_pretrained("pretrained_models/t5-v1_1-base")
 
 class MyT5_pet_MC(nn.Module):
     def __init__(self, args, config):
@@ -183,6 +182,8 @@ class MyT5_pet_MC(nn.Module):
         output_P_mc = self.model_AL(**all_input, only_prefix=True, flatten_pet=prefix_flattened)
         loss_P_mc = output_P_mc[0]
         loss = loss_A_L2 + loss_A_mc + loss_L_L2 + loss_L_mc + loss_P_L2 + loss_P_mc
+
+        loss_dist_P = (torch.dist(P_A,P_L)+torch.dist(P_A,P_P)+torch.dist(P_L,P_P))/3
         
         return loss, loss_A_L2, loss_A_mc, loss_L_L2, loss_L_mc, loss_P_L2, loss_P_mc, loss_dist_P
         
@@ -225,6 +226,7 @@ class MyT5_pet_MC(nn.Module):
         gen_text_prefix = self.generate_text(all_input,decoder_input_ids,only_adapter=False,only_lora=False,only_prefix=True,flatten_pet=prefix_flattened)
 
         loss = loss_A_L2  + loss_L_L2  + loss_P_L2
+        loss_dist_P = (torch.dist(P_A,P_L)+torch.dist(P_A,P_P)+torch.dist(P_L,P_P))/3
         
         return loss, loss_A_L2, loss_A_mc, loss_L_L2, loss_L_mc, loss_P_L2, loss_P_mc, loss_dist_P, gen_text_adapter, gen_text_lora, gen_text_prefix
         
@@ -241,6 +243,7 @@ class MyT5_pet_MC(nn.Module):
             only_prefix=only_prefix,
             flatten_pet=flatten_pet,
         )
+        tokenizer = T5Tokenizer.from_pretrained(self.args.tokenizer_path)
         gen_text = tokenizer.batch_decode(
             generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True
         )

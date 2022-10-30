@@ -8,9 +8,9 @@ LORA_SIZE=10
 PREFIX_R=24
 PREFIX_NUM=120
 LOW_DIMENSION=4
-SAVE_PATH=models
+SAVE_PATH=../models
 IDENTIFIER=full_data_PET_mc_singleTask
-PRETRAINED_MODEL_PATH=pretrained_models
+PRETRAINED_MODEL_PATH=../pretrained_models
 GPU=3
 ALPHA=0.1
 
@@ -48,9 +48,9 @@ python tune_hps_singletask_PET_mode_connectivity.py \
 --apply_prefix \
 --prefix_r ${PREFIX_R} \
 --prefix_num ${PREFIX_NUM} \
---load_stage1_adapter_path_list models/full_data_adapter/${TASK}-adapter_size_12-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
---load_stage1_lora_path_list models/full_data_lora/${TASK}-lora_size_10-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
---load_stage1_prefix_path_list models/full_data_prefix/${TASK}-r_24-num_120-SGD_noise_seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_adapter_path_list ../models/full_data_adapter/${TASK}-adapter_size_12-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_lora_path_list ../models/full_data_lora/${TASK}-lora_size_10-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_prefix_path_list ../models/full_data_prefix/${TASK}-r_24-num_120-SGD_noise_seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
 --low_dimension ${LOW_DIMENSION} \
 --reconstruct_alpha ${ALPHA} \
 --choose_valid \

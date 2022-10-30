@@ -1,18 +1,18 @@
 cd ../src
 
-DATA_DIR="data"
+DATA_DIR=../data
 TUNE_METHOD=PET_mc
 ADAPTER_SIZE=12
 LORA_SIZE=10
 PREFIX_R=24
 PREFIX_NUM=120
 LOW_DIMENSION=100
-SAVE_PATH=models
+SAVE_PATH=../models
 IDENTIFIER=full_data_PET_mc_multitask_multigpu
-PRETRAINED_MODEL_PATH=pretrained_models
+PRETRAINED_MODEL_PATH=../pretrained_models
 TASK_SPLIT=train_60_unseen_rest
 NPROC_PER_NODE=4
-GPU=4,5,6,7
+GPU=1,2,3,5
 
 
 echo "Task: $TASK, Identifier: $IDENTIFIER"
@@ -50,6 +50,6 @@ python -m torch.distributed.launch --master_port 88888 --nproc_per_node ${NPROC_
 --prefix_r ${PREFIX_R} \
 --prefix_num ${PREFIX_NUM} \
 --low_dimension ${LOW_DIMENSION} \
---load_PET_dir models \
+--load_PET_dir ../models \
 --gpu_num ${NPROC_PER_NODE} \
 --reconstruct_alpha 10 \

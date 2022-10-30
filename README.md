@@ -1,6 +1,6 @@
 # Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning
 
-This is the implementation of the paper "[Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning](https://arxiv.org/pdf/2210.13311.pdf)"
+This is the implementation of the paper "[Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning]()"
 
 To clone the repository, please run the following command:
 
@@ -30,7 +30,7 @@ If you use the code, please cite the following paper:
 <center>
 <img src="figs/3stage.png" width="80%">
 </center>
-In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance.
+In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance. You can find more details in our [paper]().
 
 # Requirements
 
@@ -40,19 +40,22 @@ pip install -r requirements.txt
 ```
 NOTE: Different versions of packages (like pytorch, transformers, etc.) may lead to different results from the paper. However, the trend should still hold no matter what versions of packages you use.
 
-# Data Preparation
-We pack the original 160 datasets here. Please download it from [here](https://cloud.tsinghua.edu.cn/f/23dee716b51f45988c2f/?dl=1) and extract the files to ./data
+# Data Preparation and 
+```bash
+bash download.sh
+```
+We pack the original 160 datasets. Please download it and extract the files to ./data. We upload PETs and pretrained_models to cloud. Please download and unpack them to ./pretrained_models and ./models.
 
 # Experiments
 
-We pack original DETs and fine-tuning checkpoints of tasks in our experiments. Please download it and extract the files to ./models
+We pack original DETs checkpoints of tasks in our experiments(). Please download it and extract the files to ./models
 
 ## Single-task Setting
 We take Sentiment Analysis tasks for example here.
 
 ### Subspace Approximation
 ```bash
-bash scipts/train_singletask-glue-sst2.sh
+bash scripts/train_singletask-glue-sst2.sh
 ```
 ```bash
 cd ../src
@@ -134,7 +137,7 @@ Subspace Optimization for adapter and transfer adapter's subspace solution to lo
 bash sricpts/transfer_singletask_adapter-from-glue-sst2.sh
 ```
 
-The different argument from Subspace Approximation is `load_PET_enc_dec_path`,  from which we load checkpont to get the subspace.
+The different argument from Subspace Approximation is `load_PET_enc_dec_path`,  from which we load checkpoint to get the subspace.
 
 <center>
 <img src="figs/single-task-optimization.png" width="80%">
@@ -145,7 +148,7 @@ The different argument from Subspace Approximation is `load_PET_enc_dec_path`,  
 
 ### Subspace Approximation
 ```bash
-bash scipts/train_60tasks-multigpu.sh
+bash scripts/train_60tasks-multigpu.sh
 ```
 
 ```

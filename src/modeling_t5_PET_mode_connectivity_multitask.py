@@ -9,7 +9,6 @@ from modeling_t5_multiHyper_flatten_pet import T5PreTrainedModel, T5ForCondition
 from pytorch_metric_learning import losses
 from transformers import T5Tokenizer
 from transformers.activations import ACT2FN
-tokenizer = T5Tokenizer.from_pretrained("pretrained_models/t5-v1_1-base")
 
 class MyT5_pet_MC(nn.Module):
     def __init__(self, args, config):
@@ -44,15 +43,15 @@ class MyT5_pet_MC(nn.Module):
                 flatten = torch.cat((flatten, pet_dict[pet_name_module].flatten().cuda()),dim=0)
             return flatten
         
-        self.init_A = flatten_init('/init_pet/adapter_init_seed_42.pth', 'adapter')
+        self.init_A = flatten_init('init_pet/adapter_init_seed_42.pth', 'adapter')
         self.theta_A = self.faltten(load_stage1_adapter_path_list, 'adapter')
         self.theta_A.requires_grad = False
                 
-        self.init_L = flatten_init('/init_pet/lora_init_seed_42.pth', 'lora')
+        self.init_L = flatten_init('init_pet/lora_init_seed_42.pth', 'lora')
         self.theta_L = self.faltten(load_stage1_lora_path_list, 'lora')
         self.theta_L.requires_grad = False
                 
-        self.init_P = flatten_init('/init_pet/prefix_init_seed_42.pth', 'prefix')
+        self.init_P = flatten_init('init_pet/prefix_init_seed_42.pth', 'prefix')
         self.theta_P = self.faltten(load_stage1_prefix_path_list, 'prefix')
         self.theta_P.requires_grad = False
         
@@ -449,6 +448,7 @@ class MyT5_pet_MC(nn.Module):
             only_prefix=only_prefix,
             flatten_pet=flatten_pet,
         )
+        tokenizer = T5Tokenizer.from_pretrained(self.args.tokenizer_path)
         gen_text = tokenizer.batch_decode(
             generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True
         )
