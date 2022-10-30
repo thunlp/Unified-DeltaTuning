@@ -44,7 +44,7 @@ NOTE: Different versions of packages (like pytorch, transformers, etc.) may lead
 ```bash
 bash download.sh
 ```
-We pack the original 160 datasets. Please download it and extract the files to `./data`. We upload pretrained_models and original DETs checkpoints of tasks to cloud. Please download and unpack them to `./pretrained_models` and `./models`.
+We pack the original 160 datasets. Please download it and extract the files to `./data`. We upload pretrained_models and original DETs checkpoints to cloud. Please download and unpack them to `./pretrained_models` and `./models`.
 
 # Experiments
 
