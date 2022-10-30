@@ -1,6 +1,6 @@
 # Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning
 
-This is the implementation of the paper "[Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning]()"
+This is the implementation of the paper "[Different Tunes Played with Equal Skill: Exploring a Unified Optimization Subspace for Delta Tuning](https://arxiv.org/pdf/2210.13311.pdf)"
 
 To clone the repository, please run the following command:
 
@@ -30,7 +30,7 @@ If you use the code, please cite the following paper:
 <center>
 <img src="figs/3stage.png" width="80%">
 </center>
-In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance. You can find more details in our [paper]().
+In this work, we explore the connections among different DETs(Delta tuning, also known as parameter-efficient tuning) by conducting optimization within the subspace. We find that, for a certain DET, conducting optimization simply in the sub-space could achieve comparable performance to its original space, and the found solution in the subspace could be transferred to another DET and achieve non-trivial performance. You can find more details in our [paper](https://arxiv.org/pdf/2210.13311.pdf).
 
 # Requirements
 
@@ -40,15 +40,13 @@ pip install -r requirements.txt
 ```
 NOTE: Different versions of packages (like pytorch, transformers, etc.) may lead to different results from the paper. However, the trend should still hold no matter what versions of packages you use.
 
-# Data Preparation and 
+# Data Preparation
 ```bash
 bash download.sh
 ```
-We pack the original 160 datasets. Please download it and extract the files to ./data. We upload PETs and pretrained_models to cloud. Please download and unpack them to ./pretrained_models and ./models.
+We pack the original 160 datasets. Please download it and extract the files to `./data`. We upload pretrained_models and original DETs checkpoints of tasks to cloud. Please download and unpack them to `./pretrained_models` and `./models`.
 
 # Experiments
-
-We pack original DETs checkpoints of tasks in our experiments(). Please download it and extract the files to ./models
 
 ## Single-task Setting
 We take Sentiment Analysis tasks for example here.
@@ -58,6 +56,7 @@ We take Sentiment Analysis tasks for example here.
 bash scripts/train_singletask-glue-sst2.sh
 ```
 ```bash
+
 cd ../src
 
 TASKS="glue-sst2"
@@ -68,9 +67,9 @@ LORA_SIZE=10
 PREFIX_R=24
 PREFIX_NUM=120
 LOW_DIMENSION=4
-SAVE_PATH=models
+SAVE_PATH=../models
 IDENTIFIER=full_data_PET_mc_singleTask
-PRETRAINED_MODEL_PATH=pretrained_models
+PRETRAINED_MODEL_PATH=../pretrained_models
 GPU=3
 ALPHA=0.1
 
@@ -108,14 +107,16 @@ python tune_hps_singletask_PET_mode_connectivity.py \
 --apply_prefix \
 --prefix_r ${PREFIX_R} \
 --prefix_num ${PREFIX_NUM} \
---load_stage1_adapter_path_list models/full_data_adapter/${TASK}-adapter_size_12-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
---load_stage1_lora_path_list models/full_data_lora/${TASK}-lora_size_10-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
---load_stage1_prefix_path_list models/full_data_prefix/${TASK}-r_24-num_120-SGD_noise_seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_adapter_path_list ../models/full_data_adapter/${TASK}-adapter_size_12-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_lora_path_list ../models/full_data_lora/${TASK}-lora_size_10-seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
+--load_stage1_prefix_path_list ../models/full_data_prefix/${TASK}-r_24-num_120-SGD_noise_seed_42/lr_0.0005_bsz_16_seed_42/checkpoint-best.pt \
 --low_dimension ${LOW_DIMENSION} \
 --reconstruct_alpha ${ALPHA} \
 --choose_valid \
 --choose_valid_lines 1000 \
+
 done
+
 
 ```
 Most arguments are inherited from `transformers` and are easy to understand. We further explain some arguments:
@@ -151,22 +152,23 @@ The different argument from Subspace Approximation is `load_PET_enc_dec_path`,  
 bash scripts/train_60tasks-multigpu.sh
 ```
 
-```
+```bash
 cd ../src
 
-DATA_DIR="data"
+DATA_DIR=../data
 TUNE_METHOD=PET_mc
 ADAPTER_SIZE=12
 LORA_SIZE=10
 PREFIX_R=24
 PREFIX_NUM=120
 LOW_DIMENSION=100
-SAVE_PATH=models
+SAVE_PATH=../models
 IDENTIFIER=full_data_PET_mc_multitask_multigpu
-PRETRAINED_MODEL_PATH=pretrained_models
+PRETRAINED_MODEL_PATH=../pretrained_models
 TASK_SPLIT=train_60_unseen_rest
 NPROC_PER_NODE=4
-GPU=4,5,6,7
+GPU=1,2,3,5
+
 
 echo "Task: $TASK, Identifier: $IDENTIFIER"
 
@@ -203,9 +205,10 @@ python -m torch.distributed.launch --master_port 88888 --nproc_per_node ${NPROC_
 --prefix_r ${PREFIX_R} \
 --prefix_num ${PREFIX_NUM} \
 --low_dimension ${LOW_DIMENSION} \
---load_PET_dir models \
+--load_PET_dir ../models \
 --gpu_num ${NPROC_PER_NODE} \
 --reconstruct_alpha 10 \
+
 
 ```
 
